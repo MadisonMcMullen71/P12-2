@@ -3,52 +3,46 @@
 #include <string>
 using namespace std;
 
-// Function prototypes
 bool isLeapYear(int year);
 int daysInMonth(int month, int year);
+int dayOfWeek(int month, int day, int year);
 
 int main() {
-
     string input;
-    int month;
-    int year;
+    int month, day, year;
 
-    string monthNames[12] = {
+    string days[] = {
+        "Saturday", "Sunday", "Monday", "Tuesday",
+        "Wednesday", "Thursday", "Friday"
+    };
+
+    string months[] = {
         "January", "February", "March", "April",
         "May", "June", "July", "August",
         "September", "October", "November", "December"
     };
 
-    while (true) {
+    cout << "Enter a date or Q to quit: ";
+    cin >> input;
 
-        cout << "Enter a month and year or Q to quit: ";
-        cin >> input;
-
-        if (input == "Q" || input == "q") {
-            break;
-        }
-
+    while (input != "Q" && input != "q") {
         month = stoi(input);
-        cin >> year;
+        cin >> day >> year;
 
-        int days = daysInMonth(month, year);
+        int weekday = dayOfWeek(month, day, year);
 
-        cout << monthNames[month - 1] << " " << year
-            << " has " << days << " days." << endl;
+        cout << days[weekday] << ", "
+            << months[month - 1] << " "
+            << day << ", " << year << endl;
 
-        if (isLeapYear(year)) {
-            cout << year << " is a leap year." << endl;
-        }
-        else {
-            cout << year << " is not a leap year." << endl;
-        }
+        cout << "Enter a date or Q to quit: ";
+        cin >> input;
     }
 
     return 0;
 }
 
 bool isLeapYear(int year) {
-
     if (year % 400 == 0) {
         return true;
     }
@@ -64,7 +58,6 @@ bool isLeapYear(int year) {
 }
 
 int daysInMonth(int month, int year) {
-
     if (month == 2) {
         if (isLeapYear(year)) {
             return 29;
@@ -80,4 +73,22 @@ int daysInMonth(int month, int year) {
     else {
         return 31;
     }
+}
+
+int dayOfWeek(int month, int day, int year) {
+    int m = month;
+    int Y = year;
+
+    if (m == 1 || m == 2) {
+        m = m + 12;
+        Y = Y - 1;
+    }
+
+    int K = Y % 100;
+    int J = Y / 100;
+
+    int h = (day + (13 * (m + 1)) / 5 + K
+        + K / 4 + J / 4 + 5 * J) % 7;
+
+    return h;
 }

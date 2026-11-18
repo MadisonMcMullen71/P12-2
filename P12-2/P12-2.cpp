@@ -12,7 +12,7 @@ int dayOfWeek(int month, int day, int year);
 int main() {
     string input;
     int month, year, day;
-
+     
     string months[] = {
         "January", "February", "March", "April",
         "May", "June", "July", "August",
